@@ -1,22 +1,16 @@
 import streamlit as st
-from PIL import Image
-import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
-def oil_painting(image):
-    img = cv2.imread(image)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    img_gray = cv2.GaussianBlur(img_gray, (21, 21), 0)
-    img_gray = cv2.medianBlur(img_gray, 15)
-    img_gray = cv2.bilateralFilter(img_gray, 15, 75, 75)
-    img_gray = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-    img = cv2.bitwise_and(img, img, mask=img_gray)
-    img = Image.fromarray(img)
-    return img
+def plot_line(m, b):
+    x = np.linspace(-10, 10, 100)
+    y = m*x + b
+    plt.plot(x, y)
+    plt.show()
 
-st.set_title("Oil Painting App")
+st.title("Linear Function Plotter")
+m = st.slider("m", -10.0, 10.0, 0.5)
+b = st.slider("b", -10.0, 10.0, 0)
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    st.image(oil_painting(image), caption='Oil Painting', use_column_width=True)
+if st.button("Plot"):
+    plot_line(m, b)
