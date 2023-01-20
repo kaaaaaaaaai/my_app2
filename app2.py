@@ -1,20 +1,16 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
-def plot_func(a, b, c):
-    x = np.linspace(-10, 10, 100)
-    y = a*x**2 + b*x + c
-    plt.plot(x, y)
-    plt.show()
+st.title("Function Grapher")
 
-st.title("Function Plotter")
+# Get user input for the function
+fn_string = st.text_input("Enter a function (y = f(x))", "x**2")
 
-a = st.sidebar.slider("a", -10.0, 10.0, 1.0)
-b = st.sidebar.slider("b", -10.0, 10.0, 2.0)
-c = st.sidebar.slider("c", -10.0, 10.0, 1.0)
-
-st.write("y = a*x^2 + b*x + c")
-
-if st.button("Plot"):
-    plot_func(a, b, c)
+# Create a graph
+x = np.linspace(-10, 10, num=100)
+y = eval(fn_string)
+plt.plot(x, y)
+plt.xlabel("x")
+plt.ylabel("y")
+st.pyplot()
